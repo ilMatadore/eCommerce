@@ -1,0 +1,40 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <div class="container" style="width:40%;">
+        <h2 class="header">Watchlist</h2>
+        {%if products.product.all%}
+            {%for product in products.product.all %}
+            <div class="product-container" style="margin-bottom: 10px;">               
+                <div class="image-container">
+                    <img src="{{product.image.url}}" height="150px" alt="{{product.title}}">
+                </div>
+                <div class="text-container">
+                <h3>{{product.title}}</h3>                
+                {% if product.lastBid < product.starting_bid %}
+                    <h6>Current Price: ${{product.starting_bid}}</h6>
+                {% else %}
+                    <h6>Current Price: ${{product.lastBid}}</h6>
+                {% endif %}
+                {% if product.closed %}
+                    <h6>Status: CLOSED</h6>
+                {% else %}
+                    <h6>Status: OPEN</h6>
+                {% endif%}
+                <h6>Created on: {{product.date_created}}</h6>
+                <a href="{% url 'product' product.id %}">View Product</a>
+                <a href="{% url 'remove_watchlist' product.id %}">Remove</a>
+                </div>   
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="header">
+                <p>Your watchlist is empty</p>
+            </div>
+        {% endif %}
+
+           
+
+    </div>
+
+{% endblock %}

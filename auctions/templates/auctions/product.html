@@ -1,0 +1,83 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <div class="container">
+        <div class="header">
+            <h1>{{product.title}}</h1>
+            <h6>Created on: {{product.date_created}} by {{product.user}}</h6>
+        </div>
+        <div class="product-data" >
+            <img src={{product.image.url}} height="300px" alt="{{product.title}}">
+            <div class="product-info">
+                <h4>Description</h4>
+                <p>{{product.description}}</p>
+                <h5>Starting Bid: ${{product.starting_bid}}</h5>
+                {% if maxBid.bid__max == None %}
+                <h5>Current Bid: No bids yet</h5>
+                {% else %}
+                <h5>Current Bid: ${{maxBid.bid__max}}</h5>
+                {% endif %}
+            
+            {% if user.is_authenticated and product.closed == False%}
+                <form method="POST" action="{{product.id}}">
+                    {% csrf_token %}
+                    <input type="number" placeholder="Enter your Bid" name="bid">
+                    <input type="submit" value="Place Bid" name="PlaceBid">
+                    {% if message %}
+                        <div><h4>{{ message }}</h4></div>
+                    {% endif %}
+                </form>
+            {% endif %}
+            
+            {% if request.user == product.user %}
+                {% if product.closed == False %}
+                    <form method="POST" action="{{product.id}}">
+                        {% csrf_token %}
+                        <label for="auction_status">Close Auction:</label>
+                            <select name="auction_status" id="auction_status">
+                                <option value=True selected="selected"></option>
+                                <option value=True>Yes</option>
+                            </select>
+                        <input type="submit" value="Save"> 
+                    </form>
+                {% else %}
+                    <h6>Auction is closed</h6>
+                {% endif %}
+            {% endif %}
+            {% if user == maxBidUser and product.closed %}
+                    <h3>YOU HAVE WON THIS AUCTION</h3>
+                    <h5>Your bid of ${{maxBid.bid__max}} was the highest</h5>
+            {% endif%}
+            <a id="back" href="{% url 'index' %}">Back</a>
+            {% if watchlist %}
+                {% if product in watchlist.product.all%}
+                    <a class="watchlist" href="{% url 'remove_watchlist' product.id %}">Remove from Watchlist</a>
+                {% else %}
+                    <a class="watchlist" href="{% url 'add_watchlist' product.id %}">Add to Watchlist</a>
+                {% endif %}
+            {% endif %}    
+            
+        </div>
+    </div>
+        {% if user.is_authenticated %}
+        <div class="comments-section">
+            <div class="container">
+                <h4>Questions? Comments? Enter here:</h4>
+                <form method="POST" action="{{product.id}}">
+                    {% csrf_token %}
+                    <input type="text" placeholder="Enter comment" name="comment">
+                    <input type="submit" value="Send" name="SendComment">
+                </form>
+            </div>
+            {% endif %}
+            <div class="container">
+                {% for comment in comments %}
+                        <h6>On {{comment.date_created}} {{comment.user}} said:</h6>
+                        <p>{{comment.comment}}</p>
+                {% endfor %}
+
+            </div>
+        </div>  
+    </div>
+
+{% endblock %}

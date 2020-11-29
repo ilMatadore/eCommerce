@@ -1,0 +1,28 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+    <div class="active-listing-container">
+    {% for product in products %}
+        {% if product.closed == False %}
+                <div class="product-container">               
+                    <div class="image-container">
+                        <img src="{{product.image.url}}" width="120px" height="120px" alt="{{product.title}}">
+                    </div>
+                    <div class="text-container">
+                        <h3>{{product.title}}</h3> 
+                        {% if product.lastBid < product.starting_bid %}
+                            <h4>Current Price: ${{product.starting_bid}}</h4>
+                        {% else %}
+                            <h4>Current Price: ${{product.lastBid}}</h4>
+                        {% endif %}
+                        <a class="nav-link" href="{% url 'product' product.id %}">View Product</a>
+                        <h6>Created on: {{product.date_created}}</h6>
+                    </div>
+                    
+                </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+{% endblock %}

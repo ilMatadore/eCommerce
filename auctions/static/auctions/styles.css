@@ -1,0 +1,96 @@
+body {
+  padding: 10px;
+}
+
+h2 {
+  text-align: center;
+  margin: 40px;
+}
+
+.active-listing-container {
+  margin: auto;
+  width: 50%;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: auto;
+  column-gap: 10px;
+  row-gap: 10px;
+}
+
+.product-container {
+  display: flex;
+
+  margin: auto;
+  border: 1px black solid;
+  padding: 15px;
+  border-radius: 20px;
+}
+
+.image-container {
+  padding: 10px;
+  margin: auto;
+}
+
+.text-container {
+  text-align: center;
+  width: 80%;
+}
+
+.text-container > * {
+  padding: 5px;
+}
+
+.categories {
+  margin: auto;
+  width: 22%;
+}
+
+.form-create-container {
+  width: 50%;
+  margin: auto;
+}
+
+.form-create-container h3 {
+  text-align: center;
+}
+
+.create-submit input {
+  float: right;
+}
+
+.header {
+  text-align: center;
+}
+
+.product-data {
+  display: flex;
+  min-height: 400px;
+}
+
+.product-data img {
+  padding-right: 10px;
+}
+.product-info p {
+  min-height: 50%;
+}
+
+.product-info {
+  width: 100%;
+}
+
+.watchlist {
+  float: right;
+  padding-right: 40px;
+}
+#back {
+  float: right;
+}
+
+.comments-section {
+  padding-top: 30px;
+}
+
+.comments-section .container form {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
